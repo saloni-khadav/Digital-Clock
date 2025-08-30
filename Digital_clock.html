@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -117,5 +117,107 @@
         sec_dot.style.transform = `rotate(${s * 6}deg)`;
     })
 </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <link rel="stylesheet" href="digital_clock.css">
+</head>
+<body>
+    <div class="container">
+        <div class="day" id="day"></div>
+        <div id="time">
+            <div class="circle" style="--clr:#ff2972;">
+                <div class="dots hr_dot"></div>
+                <svg>
+                    <circle cx="70" cy="70" r="70"></circle>
+                    <circle cx="70" cy="70" r="70" id="hh"></circle>
+                </svg>
+                <div id="hours">00</div>
+            </div>
+            <div class="circle" style="--clr:#fee800;">
+                <div class="dots min_dot"></div>
+                <svg>
+                    <circle cx="70" cy="70" r="70"></circle>
+                    <circle cx="70" cy="70" r="70" id="mm"></circle>
+                </svg>
+                <div id="minutes">00</div>
+            </div>
+            <div class="circle" style="--clr:#04fc43;">
+                <div class="dots sec_dot"></div>
+                <svg>
+                    <circle cx="70" cy="70" r="70"></circle>
+                    <circle cx="70" cy="70" r="70" id="ss"></circle>
+                </svg>
+                <div id="seconds">00</div>
+            </div>
+            <div class="ap">
+                <div id="ampm">AM</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        setInterval(() => {
+            let hours = document.getElementById('hours');
+            let minutes = document.getElementById('minutes');
+            let seconds = document.getElementById('seconds');
+            let ampm = document.getElementById('ampm');
+            let day = document.getElementById('day');
+            
+            const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const monthNames = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+
+            let date = new Date();
+            let d = date.getDate();
+            let m = date.getMonth();
+            let y = date.getFullYear();
+            let dayOfWeek = date.getDay();
+            
+            day.innerHTML = `${dayNames[dayOfWeek]}, ${monthNames[m]} ${d}, ${y}`;
+            
+            let hh = document.getElementById('hh');
+            let mm = document.getElementById('mm');
+            let ss = document.getElementById('ss');
+
+            let hr_dot = document.querySelector('.hr_dot');
+            let min_dot = document.querySelector('.min_dot');
+            let sec_dot = document.querySelector('.sec_dot');
+
+            let h = date.getHours();
+            let m_time = date.getMinutes();
+            let s = date.getSeconds();
+            let am = h >= 12 ? "PM" : "AM";
+
+            if (h > 12) {
+                h = h - 12;
+            }
+
+            h = (h < 10) ? "0" + h : h;
+            m_time = (m_time < 10) ? "0" + m_time : m_time;
+            s = (s < 10) ? "0" + s : s;
+
+            hours.innerHTML = h + "<br><span>Hours</span>";
+            minutes.innerHTML = m_time + "<br><span>Minutes</span>";
+            seconds.innerHTML = s + "<br><span>Seconds</span>";
+            ampm.innerHTML = am;
+
+            hh.style.strokeDashoffset = 440 - (440 * h) / 12;
+            mm.style.strokeDashoffset = 440 - (440 * m_time) / 60;
+            ss.style.strokeDashoffset = 440 - (440 * s) / 60;
+
+            hr_dot.style.transform = `rotate(${h * 30 + (m_time / 2)}deg)`;
+            min_dot.style.transform = `rotate(${m_time * 6}deg)`;
+            sec_dot.style.transform = `rotate(${s * 6}deg)`;
+        }, 1000);
+    </script>
 </body>
 </html>
